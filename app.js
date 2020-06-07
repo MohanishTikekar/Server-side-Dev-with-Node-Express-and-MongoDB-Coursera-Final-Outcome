@@ -36,6 +36,16 @@ connect.then((db) => {
 //* DB TO REST API DONE.
 
 var app = express();
+// To redirect into HTTPS port (3443) 
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  }
+  else {
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 
 //* view engine setup
 // Serve the HTML files from the public folder
